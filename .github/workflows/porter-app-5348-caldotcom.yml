@@ -2,10 +2,12 @@
     push:
         branches:
             - feather
+    workflow_dispatch:
+
 name: Deploy to caldotcom
 jobs:
     porter-deploy:
-        runs-on: ubuntu-latest
+        runs-on: linux-arm64
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -25,3 +27,6 @@ jobs:
                 PORTER_PROJECT: "12178"
                 PORTER_TAG: ${{ steps.vars.outputs.sha_short }}
                 PORTER_TOKEN: ${{ secrets.PORTER_APP_12178_1170730211 }}
+                DOCKER_BUILDKIT: '1'
+                PORTER_BUILDKIT_ARGS: --platform linux/arm64
+                PORTER_BUILDKIT_PUSH_ARGS: --platform linux/arm64
